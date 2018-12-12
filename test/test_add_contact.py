@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from contact import Contact
-from application_for_contact import Application
+from model.contact import Contact
+from fixture.application_for_contact import Application
 
 
 @pytest.fixture
@@ -25,10 +25,7 @@ def test_add_contact(app):
 def test_add_empty_contact(app):
     app.Login(user_name="admin", password="secret")
     app.Create_new_contact(Contact(firstname="", middlename="", lastname="", nickname="", photo="",title="", company="",address="",
-                                        home="", mobile="", work="", fax="",email="", email2="", email3="", homepage="",
+                                        home="", mobile="", work="", fax="", email="", email2="", email3="", homepage="",
                                         bday="", bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="", notes=""))
     app.Logout()
 
-
-if __name__ == "__main__":
-    pytest.main()
