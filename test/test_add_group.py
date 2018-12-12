@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 from model.group import Group
-from fixture.application_for_group import Application
+from fixture.application import Application
 
 
 @pytest.fixture
@@ -15,15 +15,15 @@ def app(request):
 
 # Test method that takes a fixture as a parameter
 def test_add_group(app):
-    app.Login(user_name="admin", password="secret")
-    app.Create_group(Group(group_name="group", header="gr", footer="gr"))
-    app.Logout()
+    app.session.Login(user_name="admin", password="secret")
+    app.group.Create(Group(group_name="group", header="gr", footer="gr"))
+    app.session.Logout()
 
 
 def test_add_empty_group(app):
-    app.Login(user_name="admin", password="secret")
-    app.Create_group(Group(group_name="", header="", footer=""))
-    app.Logout()
+    app.session.Login(user_name="admin", password="secret")
+    app.group.Create(Group(group_name="", header="", footer=""))
+    app.session.Logout()
 
 
 
