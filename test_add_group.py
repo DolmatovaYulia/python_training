@@ -18,6 +18,7 @@ class TestAddGroup(unittest.TestCase):
         wd.get("http://addressbook/")
 
     def Login(self, wd, user_name, password):
+        self.Open_homepage(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(user_name)
@@ -29,6 +30,7 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_link_text("groups").click()
 
     def Create_group(self, wd, group):
+        self.Open_groups_page(wd)
         # Init group creation
         wd.find_element_by_name("new").click()
         # Fill group form
@@ -43,6 +45,7 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # Submit group creation
         wd.find_element_by_name("submit").click()
+        self.Return_to_groups_page(wd)
 
     def Return_to_groups_page(self, wd):
         wd.find_element_by_link_text("group page").click()
@@ -52,20 +55,14 @@ class TestAddGroup(unittest.TestCase):
 
     def test_add_group(self):
         wd = self.wd
-        self.Open_homepage(wd)
         self.Login(wd, user_name="admin", password="secret")
-        self.Open_groups_page(wd)
         self.Create_group(wd, Group(group_name="group", header="gr", footer="gr"))
-        self.Return_to_groups_page(wd)
         self.Logout(wd)
 
     def test_add_empty_group(self):
         wd = self.wd
-        self.Open_homepage(wd)
         self.Login(wd, user_name="admin", password="secret")
-        self.Open_groups_page(wd)
         self.Create_group(wd, Group(group_name="", header="", footer=""))
-        self.Return_to_groups_page(wd)
         self.Logout(wd)
 
     def is_element_present(self, how, what):

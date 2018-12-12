@@ -120,12 +120,14 @@ class TestAddContact(unittest.TestCase):
         driver.find_element_by_name("notes").send_keys(contact.notes)
         # Submit new contact
         driver.find_element_by_xpath("(//input[@name='submit'])").click()
+        self.Return_to_homepage(driver)
 
     def Add_new(self, driver):
         # Create contact
         driver.find_element_by_link_text("add new").click()
 
     def Login(self, driver, user_name, password):
+        self.Open_homepage(driver)
         # Login
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
@@ -142,23 +144,19 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         driver = self.driver
-        self.Open_homepage(driver)
         self.Login(driver, user_name="admin", password="secret")
         self.Create_new_contact(driver, Contact(firstname="q", middlename="w", lastname="e", nickname="qwerty", photo="", title="qwerty",
                                                 company="qwerty", address="qwe", home="123456", mobile="1234567890", work="654321", fax="",
                                                 email="qwerty@qwe.rty", email2="qwerty", email3="qwerty1@qwe.rty", homepage="none", bday="1",
                                                 bmonth="January", byear="1999", aday="4", amonth="March", ayear="2000", address2="qwerty", phone2="qwewqe", notes="zxc"))
-        self.Return_to_homepage(driver)
         self.Logout(driver)
 
     def test_add_empty_contact(self):
         driver = self.driver
-        self.Open_homepage(driver)
         self.Login(driver, user_name="admin", password="secret")
         self.Create_new_contact(driver, Contact(firstname="", middlename="", lastname="", nickname="", photo="",title="", company="",address="",
                                                 home="", mobile="", work="", fax="",email="", email2="", email3="", homepage="",
                                                 bday="", bmonth="-", byear="", aday="", amonth="-", ayear="", address2="", phone2="", notes=""))
-        self.Return_to_homepage(driver)
         self.Logout(driver)
 
     def is_element_present(self, how, what):
