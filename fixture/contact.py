@@ -117,28 +117,6 @@ class ContactHelper:
         wd.find_element_by_xpath("(//input[@name='submit'])").click()
         self.Return_to_homepage()
 
-    def Delete_first_contact(self):
-        wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
-        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
-        wd.switch_to_alert().accept()
-        self.Return_to_homepage()
-
-    def Delete_all_contacts(self):
-        wd = self.app.wd
-        wd.find_element_by_id("MassCB").click()
-        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
-        wd.switch_to_alert().accept()
-        self.Return_to_homepage()
-
-    def Update_first_contact(self, group):
-        wd = self.app.wd
-        self.Open_groups_page()
-        # Select first group
-        wd.find_element_by_name("selected[]").click()
-        # Submit deletion
-        wd.find_element_by_name("edit").click()
-
     def Update_first_contact(self, contact):
         wd = self.app.wd
         wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
@@ -243,3 +221,22 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/div").click()
         self.Return_to_homepage()
 
+    def Delete_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        wd.switch_to_alert().accept()
+        self.Return_to_homepage()
+
+    def Delete_all_contacts(self):
+        wd = self.app.wd
+        wd.find_element_by_id("MassCB").click()
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        wd.switch_to_alert().accept()
+        self.Return_to_homepage()
+
+    def Delete_contact_from_edit(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        self.Return_to_homepage()
