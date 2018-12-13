@@ -9,9 +9,14 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
+    def AddNew_page(self):
+        wd = self.app.wd
+        # Create contact
+        wd.find_element_by_link_text("add new").click()
+
     def Create(self, contact):
         wd = self.app.wd
-        self.Add_new()
+        self.AddNew_page()
         # Add first name
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -113,8 +118,5 @@ class ContactHelper:
         self.Return_to_homepage()
 
 
-    def Add_new(self):
-        wd = self.app.wd
-        # Create contact
-        wd.find_element_by_link_text("add new").click()
+
 
