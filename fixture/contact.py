@@ -124,6 +124,13 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.Return_to_homepage()
 
+    def Delete_all_contacts(self):
+        wd = self.app.wd
+        wd.find_element_by_id("MassCB").click()
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        wd.switch_to_alert().accept()
+        self.Return_to_homepage()
+
 
 
 
