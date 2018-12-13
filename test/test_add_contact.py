@@ -1,16 +1,5 @@
 # -*- coding: utf-8 -*-
-import pytest
 from model.contact import Contact
-from fixture.application import Application
-
-
-@pytest.fixture
-def app(request):
-    # Making fixtures / Application type object
-    fixture = Application()
-    # How the fixture should be destroyed
-    request.addfinalizer(fixture.Destroy)
-    return fixture
 
 
 def test_add_contact(app):
