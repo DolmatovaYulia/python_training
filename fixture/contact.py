@@ -15,7 +15,6 @@ class ContactHelper:
         wd.find_element_by_link_text("add new").click()
 
     def Contact_details(self, contact):
-        wd = self.app.wd
         # Add first name
         self.Change_field_value("firstname", contact.firstname)
         # Add middle name
@@ -70,16 +69,16 @@ class ContactHelper:
     def Change_field_value(self, field_name, text):
         wd = self.app.wd
         if text is not None:
-                wd.find_element_by_name(field_name).click()
-                wd.find_element_by_name(field_name).clear()
-                wd.find_element_by_name(field_name).send_keys(text)
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
 
     def Change_field_value_select(self, field_name, text):
         wd = self.app.wd
         if text is not None:
-                wd.find_element_by_name(field_name).click()
-                Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
-                wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).click()
+            Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
+            wd.find_element_by_name(field_name).click()
 
     # Create new contact
     def Create(self, contact):
@@ -93,7 +92,7 @@ class ContactHelper:
     # Update first contact from homepage
     def Update_first_contact(self, contact):
         wd = self.app.wd
-        self.Return_to_homepage()
+        self.app.Open_homepage()
         wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
         self.Contact_details(contact)
         # Submit new contact
@@ -104,7 +103,7 @@ class ContactHelper:
     # Update first contact from open details page
     def Update_first_contact_from_open_details(self, contact):
         wd = self.app.wd
-        self.Return_to_homepage()
+        self.app.Open_homepage()
         wd.find_element_by_xpath("(//img[@alt='Details'])").click()
         wd.find_element_by_name("modifiy").click()
         self.Contact_details(contact)
@@ -115,29 +114,30 @@ class ContactHelper:
     # Delete first contact from homepage
     def Delete_first_contact(self):
         wd = self.app.wd
+        self.app.Open_homepage()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
-        self.Return_to_homepage()
 
     # Delete all contacts from homepage
     def Delete_all_contacts(self):
         wd = self.app.wd
+        self.app.Open_homepage()
         wd.find_element_by_id("MassCB").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
-        self.Return_to_homepage()
 
     # Delete first contact from edit page
     def Delete_contact_from_edit(self):
         wd = self.app.wd
+        self.app.Open_homepage()
         wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         self.Return_to_homepage()
 
     def count(self):
         wd = self.app.wd
-        self.Return_to_homepage()
+        self.app.Open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
 
