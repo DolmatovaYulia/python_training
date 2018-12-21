@@ -89,6 +89,7 @@ class ContactHelper:
         # Submit new contact
         wd.find_element_by_xpath("(//input[@name='submit'])").click()
         self.Return_to_homepage()
+        self.contact_cache = None
 
     # Update first contact from homepage
     def Update_first_contact(self, contact):
@@ -100,6 +101,7 @@ class ContactHelper:
         wd.find_element_by_name("update").click()
         wd.find_element_by_xpath("//div[@id='content']/div").click()
         self.Return_to_homepage()
+        self.contact_cache = None
 
     # Update first contact from open details page
     def Update_first_contact_from_open_details(self, contact):
@@ -111,6 +113,7 @@ class ContactHelper:
         # Submit new contact
         wd.find_element_by_name("update").click()
         self.Return_to_homepage()
+        self.contact_cache = None
 
     # Delete first contact from homepage
     def Delete_first_contact(self):
@@ -119,6 +122,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
 
     # Delete all contacts from homepage
     def Delete_all_contacts(self):
@@ -127,6 +131,7 @@ class ContactHelper:
         wd.find_element_by_id("MassCB").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
 
     # Delete first contact from edit page
     def Delete_contact_from_edit(self):
@@ -135,22 +140,26 @@ class ContactHelper:
         wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         self.Return_to_homepage()
+        self.contact_cache = None
 
     def count(self):
         wd = self.app.wd
         self.app.Open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.app.Open_homepage()
-        contacts = []
-        for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr")[1:]:
-            cells = element.find_elements_by_xpath("td")
-            lastname = cells[1].text
-            firstname = cells[2].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.app.Open_homepage()
+            self.contact_cache = []
+            for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr")[1:]:
+                cells = element.find_elements_by_xpath("td")
+                lastname = cells[1].text
+                firstname = cells[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return list(self.contact_cache)
 
 
