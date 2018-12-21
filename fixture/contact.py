@@ -1,4 +1,5 @@
 from selenium.webdriver.support.select import Select
+from model.contact import Contact
 
 
 class ContactHelper:
@@ -139,5 +140,17 @@ class ContactHelper:
         wd = self.app.wd
         self.app.Open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        contacts = []
+        for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr")[1:]:
+            cells = element.find_elements_by_xpath("td")
+            lastname = cells[1].text
+            firstname = cells[2].text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return contacts
 
 
