@@ -92,22 +92,31 @@ class ContactHelper:
         self.contact_cache = None
 
     # Update first contact from homepage
-    def Update_first_contact(self, contact):
+    def Update_first_contact(self):
+        self.Update_contact_by_index(0)
+
+    def select_contact_by_index_to_update(self, index):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[8]/a/img").click()
+
+    def Update_contact_by_index(self, contact, index):
         wd = self.app.wd
         self.app.Open_homepage()
-        wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
+        self.select_contact_by_index_to_update(index)
         self.Contact_details(contact)
         # Submit new contact
         wd.find_element_by_name("update").click()
-        wd.find_element_by_xpath("//div[@id='content']/div").click()
         self.Return_to_homepage()
         self.contact_cache = None
 
+    def Update_first_contact_from_open_details(self):
+        self.Update_contact_from_details_by_index(0)
+
     # Update first contact from open details page
-    def Update_first_contact_from_open_details(self, contact):
+    def Update_contact_from_details_by_index(self, contact, index):
         wd = self.app.wd
         self.app.Open_homepage()
-        wd.find_element_by_xpath("(//img[@alt='Details'])").click()
+        wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[7]/a/img").click()
         wd.find_element_by_name("modifiy").click()
         self.Contact_details(contact)
         # Submit new contact
@@ -115,11 +124,18 @@ class ContactHelper:
         self.Return_to_homepage()
         self.contact_cache = None
 
-    # Delete first contact from homepage
     def Delete_first_contact(self):
+        self.Delete_contact_by_index(0)
+
+    def select_contact_by_index_to_delete(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    # Delete some contact from homepage
+    def Delete_contact_by_index(self, index):
         wd = self.app.wd
         self.app.Open_homepage()
-        wd.find_element_by_name("selected[]").click()
+        self.select_contact_by_index_to_delete(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
         self.contact_cache = None
@@ -133,11 +149,13 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
-    # Delete first contact from edit page
     def Delete_contact_from_edit(self):
+        self.Delete_contact_from_edit_by_index(0)
+
+    def Delete_contact_from_edit_by_index(self, index):
         wd = self.app.wd
         self.app.Open_homepage()
-        wd.find_element_by_xpath("(//img[@alt='Edit'])").click()
+        self.select_contact_by_index_to_update(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         self.Return_to_homepage()
         self.contact_cache = None
