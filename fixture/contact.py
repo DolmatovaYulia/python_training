@@ -1,5 +1,6 @@
 from selenium.webdriver.support.select import Select
 from model.contact import Contact
+import re
 
 
 class ContactHelper:
@@ -15,6 +16,7 @@ class ContactHelper:
         # Create contact
         wd.find_element_by_link_text("add new").click()
 
+    # Поля для создания/редактирования контакта
     def Contact_details(self, contact):
         # Add first name
         self.Change_field_value("firstname", contact.firstname)
@@ -81,7 +83,7 @@ class ContactHelper:
             Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
             wd.find_element_by_name(field_name).click()
 
-    # Create new contact
+    # Создание контакта
     def Create(self, contact):
         wd = self.app.wd
         self.AddNew_page()
@@ -91,17 +93,30 @@ class ContactHelper:
         self.Return_to_homepage()
         self.contact_cache = None
 
-    # Update first contact from homepage
+    # Открыть контакт для просмотра
+    def Open_contact_view_by_index(self, index):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        # wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[7]/a/img").click()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+    # Выбор контакта для редактирования по индексу
+    def select_contact_by_index_to_update(self, index):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        # wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[8]/a/img").click()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
+
     def Update_first_contact(self):
         self.Update_contact_by_index(0)
 
-    def select_contact_by_index_to_update(self, index):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[8]/a/img").click()
-
+    # Редактирование контакта по индексу
     def Update_contact_by_index(self, contact, index):
         wd = self.app.wd
-        self.app.Open_homepage()
         self.select_contact_by_index_to_update(index)
         self.Contact_details(contact)
         # Submit new contact
@@ -112,11 +127,10 @@ class ContactHelper:
     def Update_first_contact_from_open_details(self):
         self.Update_contact_from_details_by_index(0)
 
-    # Update first contact from open details page
+    # Открытие редактирования контакта через страницу просмотра
     def Update_contact_from_details_by_index(self, contact, index):
         wd = self.app.wd
-        self.app.Open_homepage()
-        wd.find_element_by_xpath("//tr[" + str(index + 2) + "]/td[7]/a/img").click()
+        self.select_contact_by_index_to_update(index)
         wd.find_element_by_name("modifiy").click()
         self.Contact_details(contact)
         # Submit new contact
@@ -124,23 +138,24 @@ class ContactHelper:
         self.Return_to_homepage()
         self.contact_cache = None
 
+    # Выбор контакта для удаления по индексу
+    def select_contact_by_index_to_delete(self, index):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def Delete_first_contact(self):
         self.Delete_contact_by_index(0)
 
-    def select_contact_by_index_to_delete(self, index):
-        wd = self.app.wd
-        wd.find_elements_by_name("selected[]")[index].click()
-
-    # Delete some contact from homepage
+    # Удаление контакта по индексу
     def Delete_contact_by_index(self, index):
         wd = self.app.wd
-        self.app.Open_homepage()
         self.select_contact_by_index_to_delete(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
-    # Delete all contacts from homepage
+    # Удаление всех контактов на странице
     def Delete_all_contacts(self):
         wd = self.app.wd
         self.app.Open_homepage()
@@ -149,35 +164,74 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
+    # Удаление первого контакта через страницу редактирования
     def Delete_contact_from_edit(self):
         self.Delete_contact_from_edit_by_index(0)
 
+    # Удаление контакта через страницу редактирования по индексу
     def Delete_contact_from_edit_by_index(self, index):
         wd = self.app.wd
-        self.app.Open_homepage()
         self.select_contact_by_index_to_update(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         self.Return_to_homepage()
         self.contact_cache = None
 
+    # Счетчик контактов
     def count(self):
         wd = self.app.wd
         self.app.Open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
+    # Глобальная переменная для получения списка контактов
     contact_cache = None
 
+    # Получение списка контактов
     def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
             self.app.Open_homepage()
             self.contact_cache = []
-            for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr")[1:]:
+            for element in wd.find_elements_by_name("entry"):
                 cells = element.find_elements_by_xpath("td")
                 lastname = cells[1].text
                 firstname = cells[2].text
+                address = cells[3].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
+                all_phones = cells[5].text
+                all_emails = cells[4].text
+                self.contact_cache.append(Contact(id=id, firstname=firstname, lastname=lastname, address=address,
+                                                  all_phones_from_homepage=all_phones, all_emails_from_homepage=all_emails))
         return list(self.contact_cache)
 
+    # Получение информации о контакте через страницу редактирования по индексу
+    def get_contact_info_from_editpage(self, index):
+        wd = self.app.wd
+        self.select_contact_by_index_to_update(index)
+        id = wd.find_element_by_name("id").get_attribute("value")
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        # Получение номеров телефонов
+        home = wd.find_element_by_name("home").get_attribute("value")
+        work = wd.find_element_by_name("work").get_attribute("value")
+        mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        phone2 = wd.find_element_by_name("phone2").get_attribute("value")
+        # Получение email-адресов
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        return Contact(id=id, firstname=firstname, lastname=lastname, address=address,
+                       home=home, work=work, mobile=mobile, phone2=phone2,
+                       email=email, email2=email2, email3=email3)
+
+    # Получение информации о контакте через страницу просмотра по индексу
+    def get_contact_from_viewpage(self, index):
+        wd = self.app.wd
+        self.Open_contact_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        home = re.search("H: (.*)", text).group(1)
+        mobile = re.search("M: (.*)", text).group(1)
+        work = re.search("W: (.*)", text).group(1)
+        phone2 = re.search("P: (.*)", text).group(1)
+        return Contact(home=home, work=work, mobile=mobile, phone2=phone2)
 
