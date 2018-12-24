@@ -130,7 +130,7 @@ class ContactHelper:
     # Открытие редактирования контакта через страницу просмотра
     def Update_contact_from_details_by_index(self, contact, index):
         wd = self.app.wd
-        self.select_contact_by_index_to_update(index)
+        self.Open_contact_view_by_index(index)
         wd.find_element_by_name("modifiy").click()
         self.Contact_details(contact)
         # Submit new contact
