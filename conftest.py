@@ -2,6 +2,7 @@ import pytest
 from fixture.application import Application
 import json
 import os.path
+import importlib
 
 
 fixture = None
@@ -43,3 +44,20 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
 
+
+# Фабрика тестов
+def pytest_generate_tests(metafunc):
+    # Получение информации о фикстурах, которые есть у тестовой функции (параметры)
+    for fixture in metafunc.fixturenames:
+        if fixture.startswith("data_"):
+            testdata = load_form_module(fixture[5:])
+            # Используем загруженные тестовые данные для того, чтобы параметризовать функцию
+            # fixture - куда будут подставляться параметры
+            # testdata - какие значения (источник данных)
+            # ids - список со строковым представлением данных
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+
+
+# Загружаем данные из модуля
+def load_form_module(module):
+    return importlib.import_module("data.%s" % module).testdata
