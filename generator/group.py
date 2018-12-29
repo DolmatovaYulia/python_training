@@ -2,7 +2,7 @@ from model.group import Group
 import random
 import string
 import os.path
-import json
+import jsonpickle
 import getopt
 import sys
 
@@ -49,5 +49,6 @@ file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
 
 # Открываем файл на запись
 with open(file, "w") as out:
-    # Функция dumps превращает структуру данных в строку в формате json
-    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+    # Параметры форматирования. Библиотека работает с разными кодировщиками ("json")
+    jsonpickle.set_encoder_options("json", indent=2)
+    out.write(jsonpickle.encode(testdata))

@@ -3,6 +3,7 @@ from fixture.application import Application
 import json
 import os.path
 import importlib
+import jsonpickle
 
 
 fixture = None
@@ -56,8 +57,19 @@ def pytest_generate_tests(metafunc):
             # testdata - какие значения (источник данных)
             # ids - список со строковым представлением данных
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+        elif fixture.startswith("json_"):
+            testdata = load_form_json(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
 
 
 # Загружаем данные из модуля
 def load_form_module(module):
     return importlib.import_module("data.%s" % module).testdata
+
+
+# Загружаем данные из json-файла
+def load_form_json(file):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
+        # Читаем данные и перекодируем обратно в исходный формат в виде объекта python
+        return jsonpickle.decode(f.read())
+
