@@ -102,6 +102,11 @@ class ContactHelper:
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
+    def Open_contact_view_by_id(self, id):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        wd.find_element_by_xpath("//a[contains(@href,'view.php?id=%s')]" % id).click()
+
     # Выбор контакта для редактирования по индексу
     def select_contact_by_index_to_update(self, index):
         wd = self.app.wd
@@ -111,6 +116,11 @@ class ContactHelper:
         cell = row.find_elements_by_tag_name("td")[7]
         cell.find_element_by_tag_name("a").click()
 
+    def select_contact_by_id_to_update(self, id):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        wd.find_element_by_xpath("//a[contains(@href,'edit.php?id=%s')]" % id).click()
+
     def Update_first_contact(self):
         self.Update_contact_by_index(0)
 
@@ -118,6 +128,15 @@ class ContactHelper:
     def Update_contact_by_index(self, contact, index):
         wd = self.app.wd
         self.select_contact_by_index_to_update(index)
+        self.Contact_details(contact)
+        # Submit new contact
+        wd.find_element_by_name("update").click()
+        self.Return_to_homepage()
+        self.contact_cache = None
+
+    def Update_contact_by_id(self, contact, id):
+        wd = self.app.wd
+        self.select_contact_by_id_to_update(id)
         self.Contact_details(contact)
         # Submit new contact
         wd.find_element_by_name("update").click()
@@ -138,11 +157,25 @@ class ContactHelper:
         self.Return_to_homepage()
         self.contact_cache = None
 
+    def Update_contact_from_details_by_id(self, contact, id):
+        wd = self.app.wd
+        self.Open_contact_view_by_id(id)
+        wd.find_element_by_name("modifiy").click()
+        self.Contact_details(contact)
+        # Submit new contact
+        wd.find_element_by_name("update").click()
+        self.Return_to_homepage()
+        self.contact_cache = None
+
     # Выбор контакта для удаления по индексу
     def select_contact_by_index_to_delete(self, index):
         wd = self.app.wd
         self.app.Open_homepage()
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def Delete_first_contact(self):
         self.Delete_contact_by_index(0)
@@ -153,6 +186,16 @@ class ContactHelper:
         self.select_contact_by_index_to_delete(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
+
+    # Удаление контакта по id
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.app.Open_homepage()
+        self.select_contact_by_id(id)
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        wd.switch_to_alert().accept()
+        self.app.Open_homepage()
         self.contact_cache = None
 
     # Удаление всех контактов на странице
@@ -172,6 +215,13 @@ class ContactHelper:
     def Delete_contact_from_edit_by_index(self, index):
         wd = self.app.wd
         self.select_contact_by_index_to_update(index)
+        wd.find_element_by_xpath("(//input[@value='Delete'])").click()
+        self.Return_to_homepage()
+        self.contact_cache = None
+
+    def Delete_contact_from_edit_by_id(self, id):
+        wd = self.app.wd
+        self.select_contact_by_id_to_update(id)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         self.Return_to_homepage()
         self.contact_cache = None
