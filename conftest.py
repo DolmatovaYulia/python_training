@@ -1,6 +1,7 @@
 import pytest
 from fixture.application import Application
 from fixture.db import DBfixture
+from fixture.orm import ORMFixture
 import json
 import os.path
 import importlib
@@ -47,6 +48,14 @@ def db(request):
         dbfixture.Destroy()
     request.addfinalizer(fin)
     return dbfixture
+
+
+# Фикстура для инициализации ORM
+@pytest.fixture(scope="session")
+def ormdb(request):
+    orm_config = load_config(request.config.getoption("--target"))['db']
+    ormdbfixture = ORMFixture(host=orm_config['host'], name=orm_config['name'], user=orm_config['user'], password=orm_config['password'])
+    return ormdbfixture
 
 
 @pytest.fixture(scope="session", autouse=True)
