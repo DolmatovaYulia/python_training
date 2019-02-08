@@ -1,0 +1,50 @@
+{
+  "uid" : "b005421071e2c3e1",
+  "name" : "test_add_group.test_add_group[None:nameszkFBBj(:headerfWF2^$X{.hh:footerdBA l]",
+  "title" : "Test add group [None:nameszkFBBj(:headerfWF2^$X{.hh:footerdBA l]",
+  "time" : {
+    "start" : 1549612956156,
+    "stop" : 1549612957180,
+    "duration" : 1024
+  },
+  "summary" : {
+    "attachments" : 0,
+    "steps" : 0
+  },
+  "failure" : null,
+  "description" : null,
+  "severity" : "NORMAL",
+  "status" : "PASSED",
+  "suite" : {
+    "uid" : "fc6a60c23fe9ef02",
+    "name" : "test",
+    "title" : "Test"
+  },
+  "steps" : [ ],
+  "attachments" : [ ],
+  "issues" : [ ],
+  "testIds" : [ ],
+  "labels" : [ {
+    "name" : "thread",
+    "value" : "4356-MainThread"
+  }, {
+    "name" : "suite-name",
+    "value" : "test"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "suite-title",
+    "value" : null
+  }, {
+    "name" : "severity",
+    "value" : "normal"
+  }, {
+    "name" : "host",
+    "value" : "WIN-KL9C59L9OJG"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  } ],
+  "parameters" : [ ]
+}

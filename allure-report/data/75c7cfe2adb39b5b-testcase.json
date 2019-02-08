@@ -1,0 +1,95 @@
+{
+  "uid" : "75c7cfe2adb39b5b",
+  "name" : "test_add_group.test_add_group[None:name6Nxa{W:header*]1mv! +XL:footer$R]",
+  "title" : "Test add group [None:name6Nxa{W:header*]1mv! +XL:footer$R]",
+  "time" : {
+    "start" : 1549614363186,
+    "stop" : 1549614364188,
+    "duration" : 1002
+  },
+  "summary" : {
+    "attachments" : 0,
+    "steps" : 3
+  },
+  "failure" : null,
+  "description" : null,
+  "severity" : "NORMAL",
+  "status" : "PASSED",
+  "suite" : {
+    "uid" : "f93c9ec78178778a",
+    "name" : "test",
+    "title" : "Test"
+  },
+  "steps" : [ {
+    "name" : "Given a group list",
+    "title" : "Given a group list",
+    "time" : {
+      "start" : 1549614363221,
+      "stop" : 1549614363222,
+      "duration" : 1
+    },
+    "summary" : {
+      "attachments" : 0,
+      "steps" : 0
+    },
+    "status" : "PASSED",
+    "attachments" : [ ],
+    "steps" : [ ]
+  }, {
+    "name" : "When I add a group None:name6Nxa{W:header*]1mv! +XL:footer$R to the list",
+    "title" : "When I add a group None:name6Nxa{W:header*]1mv! +XL:footer$R to the list",
+    "time" : {
+      "start" : 1549614363222,
+      "stop" : 1549614364187,
+      "duration" : 965
+    },
+    "summary" : {
+      "attachments" : 0,
+      "steps" : 0
+    },
+    "status" : "PASSED",
+    "attachments" : [ ],
+    "steps" : [ ]
+  }, {
+    "name" : "Then the new group list is equal to the old group list with the added group",
+    "title" : "Then the new group list is equal to the old group list with the added group",
+    "time" : {
+      "start" : 1549614364187,
+      "stop" : 1549614364188,
+      "duration" : 1
+    },
+    "summary" : {
+      "attachments" : 0,
+      "steps" : 0
+    },
+    "status" : "PASSED",
+    "attachments" : [ ],
+    "steps" : [ ]
+  } ],
+  "attachments" : [ ],
+  "issues" : [ ],
+  "testIds" : [ ],
+  "labels" : [ {
+    "name" : "suite-name",
+    "value" : "test"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "suite-title",
+    "value" : null
+  }, {
+    "name" : "severity",
+    "value" : "normal"
+  }, {
+    "name" : "host",
+    "value" : "WIN-KL9C59L9OJG"
+  }, {
+    "name" : "thread",
+    "value" : "12268-MainThread"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  } ],
+  "parameters" : [ ]
+}

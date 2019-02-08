@@ -1,0 +1,49 @@
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1549614963431" stop="1549614969592">
+  <name>test</name>
+  <labels/>
+  <test-cases>
+    <test-case start="1549614963431" status="passed" stop="1549614969592">
+      <name>test_update_group.test_update_group_name</name>
+      <attachments/>
+      <labels>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="4116-MainThread"/>
+        <label name="host" value="WIN-KL9C59L9OJG"/>
+        <label name="framework" value="pytest"/>
+        <label name="language" value="cpython3"/>
+      </labels>
+      <steps>
+        <step start="1549614968759" status="passed" stop="1549614968761">
+          <name>Given a non-empty group list</name>
+          <title>Given a non-empty group list</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1549614968761" status="passed" stop="1549614968762">
+          <name>Given a new group with parameters</name>
+          <title>Given a new group with parameters</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1549614968762" status="passed" stop="1549614968762">
+          <name>Given a random group from the list</name>
+          <title>Given a random group from the list</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1549614968762" status="passed" stop="1549614969590">
+          <name>When I update the group None:test:None:None from the list</name>
+          <title>When I update the group None:test:None:None from the list</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1549614969590" status="passed" stop="1549614969592">
+          <name>Then the new group list is equal to the old group list with the modify group</name>
+          <title>Then the new group list is equal to the old group list with the modify group</title>
+          <attachments/>
+          <steps/>
+        </step>
+      </steps>
+    </test-case>
+  </test-cases>
+</ns0:test-suite>

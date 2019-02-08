@@ -1,0 +1,20 @@
+{
+  "hosts" : [ {
+    "title" : "WIN-KL9C59L9OJG",
+    "threads" : [ {
+      "title" : "4116-MainThread",
+      "testCases" : [ {
+        "uid" : "cc32a5dc74b0dcf7",
+        "name" : "test_update_group.test_update_group_name",
+        "title" : "Test update group name",
+        "time" : {
+          "start" : 1549614963431,
+          "stop" : 1549614969592,
+          "duration" : 6161
+        },
+        "severity" : "NORMAL",
+        "status" : "PASSED"
+      } ]
+    } ]
+  } ]
+}
